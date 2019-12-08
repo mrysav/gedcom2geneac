@@ -1,6 +1,7 @@
 package me.rysavys.geneac
 
-import me.rysavys.geneac.model.Person
+import me.rysavys.geneac.model.person.Person
+import org.folg.gedcom.model.EventFact
 import org.folg.gedcom.model.Gedcom
 import org.folg.gedcom.parser.ModelParser
 import org.slf4j.Logger
@@ -23,18 +24,14 @@ class GedcomImporter(filename: String) {
     }
 
     private fun getPeeps(ged: Gedcom): List<Person> {
-        val peeps = ArrayList<Person>()
 
+        return ged.people.asSequence()
+            .map { p -> Person(p, ::parseEvent) }
+            .onEach { p -> logger.info("{}", p) }
+            .toList()
+    }
 
-        for (p in ged.people) {
-            val peep = Person()
-            val fname = p.names[0].value
-            val otherNames = p.names.subList(1,p.names.size).joinToString(", ") { n -> n.displayValue }
-            peep.firstName = fname
-            peep.alternateNames = otherNames
-            logger.info("{}", peep)
-        }
-
-        return peeps
+    private fun parseEvent(event: EventFact) {
+        logger.info("{} {} {}", event.tag, event.place, event.date)
     }
 }
