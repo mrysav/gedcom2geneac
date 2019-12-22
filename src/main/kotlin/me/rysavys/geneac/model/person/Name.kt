@@ -1,6 +1,8 @@
 package me.rysavys.geneac.model.person
 
-class Name(gedName: org.folg.gedcom.model.Name) {
+import me.rysavys.geneac.gson.SkipSerialisation
+
+data class Name(@SkipSerialisation val gedName: org.folg.gedcom.model.Name) {
 
     val firstName: String?
     val lastName: String?
