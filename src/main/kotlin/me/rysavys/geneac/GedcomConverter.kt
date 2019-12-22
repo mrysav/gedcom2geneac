@@ -1,5 +1,8 @@
 package me.rysavys.geneac
 
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.required
 import com.google.gson.Gson
 import me.rysavys.geneac.gson.GedGsonBuilder
 import me.rysavys.geneac.model.ModelObj
@@ -12,23 +15,23 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class GedcomImporter(filename: String) {
+class GedcomConverter() : CliktCommand() {
+
+    val input:String by option("-i", "--input", help="Input GEDCOM file").required()
+    val output:String? by option("-o", "--output", help="Output JSON archive")
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(GedcomImporter::class.java)
+        val logger: Logger = LoggerFactory.getLogger(GedcomConverter::class.java)
         val gson: Gson = GedGsonBuilder.create()
     }
 
-    private val gedcom: Gedcom
-
     private var person_counter: Int = 0
     private var fact_counter: Int = 0
-    private var people: List<Person>
+    private var people: List<Person>? = null
     private var facts: MutableList<Fact> = ArrayList()
 
-    init {
-        val parser = ModelParser()
-        gedcom = parser.parseGedcom(File(filename))
+    override fun run() {
+        val gedcom = ModelParser().parseGedcom(File(input))
 
         people = getPeeps(gedcom)
 
@@ -38,15 +41,11 @@ class GedcomImporter(filename: String) {
 
     private fun getPeeps(ged: Gedcom): List<Person> {
         return ged.people.asSequence()
-            .map { p -> Person(person_counter, p, ::parseEvent) }
-            .onEach { p -> person_counter++ }
+            .map { p -> Person(person_counter++, p, ::parseEvent) }
             .toList()
     }
 
     private fun parseEvent(src: ModelObj, event: EventFact) {
-        val fact = Fact(fact_counter, src, event)
-        //logger.info("{}", fact)
-        facts.add(fact)
-        fact_counter++
+        facts.add(Fact(fact_counter++, src, event))
     }
 }

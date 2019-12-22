@@ -1,5 +1,5 @@
 package me.rysavys.geneac
 
-fun main() {
-    val ged = GedcomImporter("/home/mitchell/Documents/genealogy/gedcom/RysavyRef.ged")
+fun main(args: Array<String>) {
+    GedcomConverter().main(args)
 }
