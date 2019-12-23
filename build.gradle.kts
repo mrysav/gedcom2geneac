@@ -22,7 +22,7 @@ dependencies {
     implementation("org.slf4j", "slf4j-simple", "1.7.28")
     implementation("com.google.code.gson", "gson", "2.8.6")
     implementation("com.github.ajalt", "clikt", "2.3.0")
-    testCompile("junit", "junit", "4.12")
+    testImplementation("junit", "junit", "4.12")
 }
 
 configure<JavaPluginConvention> {
