@@ -15,13 +15,13 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class GedcomConverter() : CliktCommand() {
+class Gedcom2Geneac() : CliktCommand() {
 
     val input:String by option("-i", "--input", help="Input GEDCOM file").required()
     val output:String? by option("-o", "--output", help="Output JSON archive")
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(GedcomConverter::class.java)
+        val logger: Logger = LoggerFactory.getLogger(Gedcom2Geneac::class.java)
         val gson: Gson = GedGsonBuilder.create()
     }
 
