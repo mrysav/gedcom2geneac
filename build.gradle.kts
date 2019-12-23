@@ -17,9 +17,11 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.familysearch.gedcom", "gedcom", "1.10.0")
-    implementation("org.slf4j", "slf4j-api", "1.7.28")
+
+    // Gedcom + Slf4j implementation for debugging
+    implementation("org.familysearch.gedcom", "gedcom", "1.11.0")
     implementation("org.slf4j", "slf4j-simple", "1.7.28")
+
     implementation("com.google.code.gson", "gson", "2.8.6")
     implementation("com.github.ajalt", "clikt", "2.3.0")
     testImplementation("junit", "junit", "4.12")

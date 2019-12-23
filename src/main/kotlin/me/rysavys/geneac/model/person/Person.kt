@@ -9,6 +9,13 @@ data class Person (override val id: Int,
                   @SkipSerialisation val globalEventCallback: (ModelObj, EventFact) -> Unit) : ModelObj {
 
     @SkipSerialisation
+    val ged_id: String = gedPerson.id
+
+    var father_id: Int? = null
+    var mother_id: Int? = null
+    var current_spouse_id: Int? = null
+
+    @SkipSerialisation
     val name: Name
     val first_name: String?
     val last_name: String?
